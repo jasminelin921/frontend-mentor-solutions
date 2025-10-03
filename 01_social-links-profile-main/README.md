@@ -12,12 +12,12 @@ Users should be able to:
 
 ![](./screenshot1.png)
 
-![](./screenshot2.png)
+![](./screenshot2.png =50%x)
 
 ### Links
 
-- Solution URL: [Github repo](https://your-solution-url.com)
-- Live Site URL: [Product preview](https://your-live-site-url.com)
+- Solution URL: [Github repo](https://github.com/jasminelin921/frontend-mentor-solutions/tree/main/01_social-links-profile-main)
+- Live Site URL: [Product preview](https://jasminelin921.github.io/frontend-mentor-solutions/01_social-links-profile-main/)
 
 ## My process
 
