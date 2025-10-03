@@ -1,0 +1,101 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <!-- displays site properly based on user's device -->
+    <link
+      rel="icon"
+      type="image/png"
+      sizes="32x32"
+      href="./assets/images/favicon-32x32.png"
+    />
+    <link rel="preconnect" href="https://fonts.googleapis.com" />
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+    <link
+      href="https://fonts.googleapis.com/css2?family=Inter:ital,opsz,wght@0,14..32,100..900;1,14..32,100..900&display=swap"
+      rel="stylesheet"
+    />
+    <title>Frontend Mentor | Social links profile</title>
+    <style>
+      * {
+        box-sizing: border-box;
+        margin: 0;
+        padding: 0;
+        font-family: "Inter", sans-serif;
+      }
+      .container {
+        width: 100%;
+        min-height: 100vh;
+        background-color: hsl(0, 0%, 8%);
+        color: white;
+        
+        font-size: 14px;
+        font-weight: 400;
+        display: grid;
+        place-content: center;
+      }
+      .block {
+        background-color: hsl(0, 0%, 12%);
+        width: 22rem;
+        height: 35rem;
+        border-radius: 0.7rem;
+        padding: 2.2rem;
+        display: flex;
+        flex-direction: column;
+        justify-content: space-between;
+        align-items: center;
+      }
+      .photo {
+        width: 5rem;
+        height: 5rem;
+        border-radius: 100%;
+      }
+      .text{
+        text-align: center;
+        height: 6rem;
+      }
+      .btns {
+        width: 100%;
+        height: 55%;
+        display: flex;
+        flex-direction: column;
+        justify-content: space-between;
+      }
+      .btn {
+        height: 2.8rem;
+        border-radius: 0.5rem;
+        border: none;
+        background-color: hsl(0, 0%, 20%);
+        color: white;
+        font-weight: 600;
+        letter-spacing: 0.5px;
+      }
+      .btn:hover{
+        background-color: hsl(75, 94%, 57%);
+        color: hsl(0, 0%, 8%);
+      }
+    </style>
+  </head>
+  <body>
+    <div class="container">
+      <div class="block">
+        <img class="photo" src="./assets/images/avatar-jessica.jpeg" alt="" />
+        <div class="text">
+          <p style="font-weight: 600; font-size: 24px">Jessica Randall</p>
+          <p style="color: hsl(75, 94%, 57%); margin-top: 0.5rem; font-weight: 600">
+            London, United Kingdom
+          </p>
+          <p style="margin-top: 1.5rem;">"Front-end developer and avid reader."</p>
+        </div>
+        <div class="btns">
+          <button class="btn">GitHub</button>
+          <button class="btn">Frontend Mentor</button>
+          <button class="btn">LinkedIn</button>
+          <button class="btn">Twitter</button>
+          <button class="btn">Instagram</button>
+        </div>
+      </div>
+    </div>
+  </body>
+</html>
