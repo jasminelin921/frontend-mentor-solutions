@@ -1,0 +1,86 @@
+name: Deploy multiple subprojects to GitHub Pages (auto-index)
+
+on:
+  push:
+    branches: [ main ]      # 你的主要分支
+  workflow_dispatch:
+
+permissions:
+  contents: read
+  pages: write
+  id-token: write
+
+concurrency:
+  group: "pages"
+  cancel-in-progress: true
+
+jobs:
+  deploy:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v4
+
+      - name: Build publish directory and auto index
+        shell: bash
+        run: |
+          set -euo pipefail
+
+          # 1) 找出符合「兩位數_前綴」的子資料夾（例如 01_xxx、02_yyy）
+          #    你也可以把正則改成 './.*' 以包含所有頂層資料夾
+          mapfile -t DIRS < <(find . -maxdepth 1 -type d -regextype posix-extended \
+                              -regex './[0-9]{2}_.+' -printf '%P\n' | sort)
+
+          echo "Detected subprojects: ${DIRS[*]:-<none>}"
+
+          # 2) 建立發佈資料夾
+          rm -rf _site
+          mkdir -p _site
+
+          # 3) 僅複製存在 index.html 的子專案
+          LINKS=""
+          for dir in "${DIRS[@]:-}"; do
+            if [[ -f "$dir/index.html" ]]; then
+              echo "Copy $dir"
+              # 以 rsync 複製，排除常見不必要的資料
+              rsync -a --exclude '.git' --exclude 'node_modules' "$dir"/ "_site/$dir"/
+              LINKS+=$'\n'"  <li><a href=\"./$dir/\">$dir</a></li>"
+            else
+              echo "Skip $dir (no index.html)"
+            fi
+          done
+
+          # 4) 產生索引首頁（如果沒有任何子專案也會給出提示頁）
+          cat > _site/index.html <<HTML
+          <!doctype html>
+          <meta charset="utf-8">
+          <meta name="viewport" content="width=device-width,initial-scale=1">
+          <title>Demos</title>
+          <style>
+            :root { --fg:#222; --bg:#fff; --hl:#0a7cff; }
+            @media (prefers-color-scheme: dark) {
+              :root { --fg:#eaeaea; --bg:#111; --hl:#82b1ff; }
+            }
+            body { margin:24px; background:var(--bg); color:var(--fg);
+                   font:16px/1.6 -apple-system,BlinkMacSystemFont,"PingFang TC","Segoe UI",Roboto,"Helvetica Neue",Arial; }
+            h1 { margin-bottom:8px; }
+            .hint{opacity:.7;margin:0 0 16px}
+            ul{padding-left:20px}
+            li{margin:.35rem 0}
+            a{color:var(--hl); text-decoration:none}
+            a:hover{text-decoration:underline}
+          </style>
+          <h1>Demo Index</h1>
+          <p class="hint">自動產生的清單：根目錄下「兩位數＋底線」命名的子資料夾，且其內含 <code>index.html</code>。</p>
+          <ul>
+          ${LINKS:-  <li><em>目前沒有可展示的子專案（未找到符合命名且含 index.html 的資料夾）。</em></li>}
+          </ul>
+          HTML
+
+      - name: Upload artifact
+        uses: actions/upload-pages-artifact@v3
+        with:
+          path: _site
+
+      - name: Deploy to GitHub Pages
+        uses: actions/deploy-pages@v4
