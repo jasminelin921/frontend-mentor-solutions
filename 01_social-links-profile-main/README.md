@@ -12,7 +12,7 @@ Users should be able to:
 
 ![](./screenshot1.png)
 
-![](./screenshot2.png =50%x)
+![](./screenshot2.png)
 
 ### Links
 
